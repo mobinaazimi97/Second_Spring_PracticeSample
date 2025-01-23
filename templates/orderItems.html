@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderItems</title>
+    <link rel="stylesheet" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/orderItems.css}">
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <div id="title">
+        <h1>Order Item</h1>
+    </div>
+    <div id="orderItem-form">
+        <form th:action="@{/orderItems}" th:method="post" th:object="${orderItem}">
+            <label for="quantity">Quantity</label><input type="text" id="quantity" name="quantity" th:field="*{quantity}" placeholder="Quantity" required>
+            <label for="product">Product</label><input type="text" id="product" name="product" th:field="*{product}" placeholder="Product" required>
+            <label for="productName">Product_Name</label><input type="text" id="productName" name="productName" th:field="*{product.name}" placeholder="Product_Name" required>
+            <label for="order">Order</label><input type="text" id="order" name="order" th:field="*{order}" placeholder="Order" required>
+
+            <br>
+            <input class="btn btn-success" type="submit" value="Submit">
+        </form>
+    </div>
+
+
+    <div id="orderItem-table">
+        <h2 th:if="${orderItems.isEmpty()}">No Content</h2>
+        <table class="table table-hover table-primary" th:unless="${orderItems.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>Product_Name</th>
+                <th>Product_Brand</th>
+                <th>Order</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="orderItem : ${orderItems}">
+                <td th:text="${orderItem.id}"></td>
+                <td th:text="${orderItem.quantity}"></td>
+                <td th:text="${orderItem.product.name}"></td>
+                <td th:text="${orderItem.product.brand}"></td>
+                <td th:text="${orderItem.order}"></td>
+
+                <td>
+                    <button class="btn btn-warning" th:onclick="showEditPage([[${orderItem.id}]])">Edit <i
+                            class="fa fa-edit"></i></button>
+                    <button class="btn btn-danger" th:onclick="deleteItem([[${orderItem.id}]])">Delete <i
+                            class="fa fa-remove"></i></button>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/fontawesome.js}"></script>
+<script th:src="@{/assets/js/orderItems.js}"></script>
+
+</body>
+</html>

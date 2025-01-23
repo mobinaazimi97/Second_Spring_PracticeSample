@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/orders.css}">
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <div id="title">
+        <h1>Orders</h1>
+    </div>
+    <div id="order-form">
+        <form th:action="@{/orders}" th:method="post" th:object="${order}">
+            <label for="price">Price </label><input type="text" id="price" name="price" th:field="*{price}" placeholder="Price" required>
+            <label for="customerName">CustomerName</label><input type="text" id="customerName" name="customerName" th:field="*{customerName}" placeholder="CustomerName" required>
+            <br>
+            <input class="btn btn-success" type="submit" value="Submit">
+        </form>
+    </div>
+
+
+    <div id="order-table">
+        <h2 th:if="${orders.isEmpty()}">No Content</h2>
+        <table class="table table-hover table-primary" th:unless="${orders.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Price</th>
+                <th>CustomerName</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.customerName}"></td>
+
+                <td>
+                    <button class="btn btn-warning" th:onclick="showEditPage([[${order.id}]])">Edit <i
+                            class="fa fa-edit"></i></button>
+                    <button class="btn btn-danger" th:onclick="deleteOrder([[${order.id}]])">Delete <i
+                            class="fa fa-remove"></i></button>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/fontawesome.js}"></script>
+<script th:src="@{/assets/js/orders.js}"></script>
+
+</body>
+</html>
